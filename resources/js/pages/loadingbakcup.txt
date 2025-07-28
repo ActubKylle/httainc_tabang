@@ -1,0 +1,753 @@
+// components/Loading/LoadingSpinner.tsx
+import React from 'react';
+
+interface LoadingSpinnerProps {
+    size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+    color?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'white';
+    className?: string;
+}
+
+export const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({ 
+    size = 'md', 
+    color = 'primary',
+    className = '' 
+}) => {
+    const sizeClasses = {
+        xs: 'w-3 h-3 border',
+        sm: 'w-4 h-4 border',
+        md: 'w-6 h-6 border-2',
+        lg: 'w-8 h-8 border-2',
+        xl: 'w-12 h-12 border-4'
+    };
+
+    const colorClasses = {
+        primary: 'border-gray-300 border-t-blue-600',
+        secondary: 'border-gray-300 border-t-gray-600',
+        success: 'border-gray-300 border-t-green-600',
+        danger: 'border-gray-300 border-t-red-600',
+        warning: 'border-gray-300 border-t-yellow-600',
+        white: 'border-gray-400 border-t-white'
+    };
+
+    return (
+        <div 
+            className={`animate-spin rounded-full ${sizeClasses[size]} ${colorClasses[color]} ${className}`}
+            role="status"
+            aria-label="Loading"
+        >
+            <span className="sr-only">Loading...</span>
+        </div>
+    );
+};
+
+// components/Loading/LoadingButton.tsx
+import React from 'react';
+import { LoadingSpinner } from './LoadingSpinner';
+
+interface LoadingButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    isLoading: boolean;
+    loadingText?: string;
+    variant?: 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'ghost';
+    size?: 'sm' | 'md' | 'lg';
+    children: React.ReactNode;
+}
+
+export const LoadingButton: React.FC<LoadingButtonProps> = ({
+    isLoading,
+    loadingText = 'Loading...',
+    variant = 'primary',
+    size = 'md',
+    children,
+    className = '',
+    disabled,
+    ...props
+}) => {
+    const baseClasses = 'inline-flex items-center justify-center font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+    
+    const variantClasses = {
+        primary: 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+        secondary: 'bg-gray-600 text-white hover:bg-gray-700 focus:ring-gray-500',
+        success: 'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500',
+        danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+        warning: 'bg-yellow-600 text-white hover:bg-yellow-700 focus:ring-yellow-500',
+        ghost: 'bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-500 border border-gray-300'
+    };
+
+    const sizeClasses = {
+        sm: 'px-3 py-1.5 text-sm gap-2',
+        md: 'px-4 py-2 text-sm gap-2',
+        lg: 'px-6 py-3 text-base gap-3'
+    };
+
+    const spinnerSize = size === 'sm' ? 'xs' : size === 'lg' ? 'sm' : 'xs';
+    const spinnerColor = variant === 'ghost' ? 'primary' : 'white';
+
+    return (
+        <button
+            className={`${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+            disabled={disabled || isLoading}
+            {...props}
+        >
+            {isLoading ? (
+                <>
+                    <LoadingSpinner size={spinnerSize} color={spinnerColor} />
+                    {loadingText}
+                </>
+            ) : (
+                children
+            )}
+        </button>
+    );
+};
+
+// components/Loading/LoadingOverlay.tsx
+import React from 'react';
+import { LoadingSpinner } from './LoadingSpinner';
+
+interface LoadingOverlayProps {
+    isLoading: boolean;
+    children: React.ReactNode;
+    message?: string;
+    transparent?: boolean;
+    className?: string;
+}
+
+export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ 
+    isLoading, 
+    children,
+    message = 'Loading...',
+    transparent = false,
+    className = ''
+}) => (
+    <div className={`relative ${className}`}>
+        {children}
+        {isLoading && (
+            <div className={`absolute inset-0 flex items-center justify-center z-10 rounded-lg ${
+                transparent ? 'bg-white/30 backdrop-blur-sm' : 'bg-white/50 backdrop-blur-sm'
+            }`}>
+                <div className="flex items-center gap-3 px-4 py-2 bg-white rounded-lg shadow-lg border">
+                    <LoadingSpinner size="sm" />
+                    <span className="text-sm text-gray-600">{message}</span>
+                </div>
+            </div>
+        )}
+    </div>
+);
+
+// components/Loading/LoadingSkeleton.tsx
+import React from 'react';
+
+interface LoadingSkeletonProps {
+    className?: string;
+    rows?: number;
+    height?: string;
+    rounded?: boolean;
+}
+
+export const LoadingSkeleton: React.FC<LoadingSkeletonProps> = ({
+    className = '',
+    rows = 1,
+    height = 'h-4',
+    rounded = true
+}) => (
+    <div className={`animate-pulse ${className}`}>
+        {Array.from({ length: rows }).map((_, index) => (
+            <div
+                key={index}
+                className={`bg-gray-300 ${height} ${rounded ? 'rounded' : ''} ${
+                    index < rows - 1 ? 'mb-2' : ''
+                }`}
+            />
+        ))}
+    </div>
+);
+
+// components/Loading/TableLoadingSkeleton.tsx
+import React from 'react';
+import { LoadingSkeleton } from './LoadingSkeleton';
+
+interface TableLoadingSkeletonProps {
+    rows?: number;
+    columns?: number;
+    showAvatar?: boolean;
+    className?: string;
+}
+
+export const TableLoadingSkeleton: React.FC<TableLoadingSkeletonProps> = ({
+    rows = 5,
+    columns = 4,
+    showAvatar = true,
+    className = ''
+}) => (
+    <div className={`animate-pulse ${className}`}>
+        {Array.from({ length: rows }).map((_, rowIndex) => (
+            <div key={rowIndex} className="border-b border-gray-200 py-4 px-6">
+                <div className="flex items-center space-x-4">
+                    {showAvatar && (
+                        <div className="flex-shrink-0">
+                            <div className="h-10 w-10 bg-gray-300 rounded-full" />
+                        </div>
+                    )}
+                    <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4">
+                        {Array.from({ length: columns }).map((_, colIndex) => (
+                            <div key={colIndex}>
+                                <LoadingSkeleton 
+                                    height={colIndex === 0 ? 'h-4' : 'h-3'} 
+                                    className={colIndex === 0 ? 'w-3/4' : 'w-full'} 
+                                />
+                                {colIndex === 0 && (
+                                    <LoadingSkeleton height="h-3" className="w-1/2 mt-1" />
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                    <div className="flex-shrink-0">
+                        <LoadingSkeleton height="h-8" className="w-16" />
+                    </div>
+                </div>
+            </div>
+        ))}
+    </div>
+);
+
+// components/Loading/CardLoadingSkeleton.tsx
+import React from 'react';
+import { LoadingSkeleton } from './LoadingSkeleton';
+
+interface CardLoadingSkeletonProps {
+    cards?: number;
+    showImage?: boolean;
+    className?: string;
+}
+
+export const CardLoadingSkeleton: React.FC<CardLoadingSkeletonProps> = ({
+    cards = 3,
+    showImage = false,
+    className = ''
+}) => (
+    <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ${className}`}>
+        {Array.from({ length: cards }).map((_, index) => (
+            <div key={index} className="bg-white rounded-lg border border-gray-200 p-6 animate-pulse">
+                {showImage && (
+                    <LoadingSkeleton height="h-48" className="mb-4" />
+                )}
+                <LoadingSkeleton height="h-6" className="w-3/4 mb-2" />
+                <LoadingSkeleton height="h-4" className="w-full mb-2" />
+                <LoadingSkeleton height="h-4" className="w-2/3 mb-4" />
+                <div className="flex justify-between items-center">
+                    <LoadingSkeleton height="h-8" className="w-20" />
+                    <LoadingSkeleton height="h-8" className="w-16" />
+                </div>
+            </div>
+        ))}
+    </div>
+);
+
+// components/Loading/PageLoadingSkeleton.tsx
+import React from 'react';
+import { LoadingSkeleton } from './LoadingSkeleton';
+
+interface PageLoadingSkeletonProps {
+    showHeader?: boolean;
+    showStats?: boolean;
+    showFilters?: boolean;
+    showTable?: boolean;
+    className?: string;
+}
+
+export const PageLoadingSkeleton: React.FC<PageLoadingSkeletonProps> = ({
+    showHeader = true,
+    showStats = true,
+    showFilters = true,
+    showTable = true,
+    className = ''
+}) => (
+    <div className={`animate-pulse ${className}`}>
+        {showHeader && (
+            <div className="mb-8">
+                <LoadingSkeleton height="h-8" className="w-1/3 mb-2" />
+                <LoadingSkeleton height="h-4" className="w-1/2 mb-6" />
+            </div>
+        )}
+        
+        {showStats && (
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                {Array.from({ length: 4 }).map((_, i) => (
+                    <div key={i} className="bg-white rounded-lg p-4 border border-gray-200">
+                        <LoadingSkeleton height="h-6" className="w-16 mb-2" />
+                        <LoadingSkeleton height="h-4" className="w-2/3" />
+                    </div>
+                ))}
+            </div>
+        )}
+        
+        {showFilters && (
+            <div className="bg-white rounded-lg border border-gray-200 mb-6 p-6">
+                <div className="flex flex-col lg:flex-row gap-4">
+                    <LoadingSkeleton height="h-12" className="flex-1" />
+                    <LoadingSkeleton height="h-12" className="w-full lg:w-64" />
+                    <LoadingSkeleton height="h-12" className="w-full lg:w-32" />
+                </div>
+            </div>
+        )}
+        
+        {showTable && (
+            <div className="bg-white rounded-lg border border-gray-200">
+                <div className="border-b border-gray-200 px-6 py-4">
+                    <div className="grid grid-cols-6 gap-4">
+                        {Array.from({ length: 6 }).map((_, i) => (
+                            <LoadingSkeleton key={i} height="h-4" className="w-full" />
+                        ))}
+                    </div>
+                </div>
+                {Array.from({ length: 5 }).map((_, index) => (
+                    <div key={index} className="border-b border-gray-200 px-6 py-4">
+                        <div className="grid grid-cols-6 gap-4 items-center">
+                            <div className="flex items-center gap-3">
+                                <LoadingSkeleton height="h-10" className="w-10 rounded-full" />
+                                <div className="flex-1">
+                                    <LoadingSkeleton height="h-4" className="w-full mb-1" />
+                                    <LoadingSkeleton height="h-3" className="w-2/3" />
+                                </div>
+                            </div>
+                            {Array.from({ length: 4 }).map((_, i) => (
+                                <LoadingSkeleton key={i} height="h-4" className="w-full" />
+                            ))}
+                            <LoadingSkeleton height="h-8" className="w-16" />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        )}
+    </div>
+);
+
+// components/Loading/LoadingStates.tsx (State management helper)
+import React from 'react';
+
+export type LoadingStates = {
+    pageLoad: boolean;
+    formSubmit: boolean;
+    dataFetch: boolean;
+    filterApply: boolean;
+    actionProcess: boolean;
+    [key: string]: boolean;
+};
+
+export type LoadingAction =
+    | { type: 'SET_LOADING'; key: keyof LoadingStates; value: boolean }
+    | { type: 'SET_MULTIPLE_LOADING'; states: Partial<LoadingStates> }
+    | { type: 'RESET_LOADING' };
+
+export const initialLoadingState: LoadingStates = {
+    pageLoad: false,
+    formSubmit: false,
+    dataFetch: false,
+    filterApply: false,
+    actionProcess: false,
+};
+
+export function loadingReducer(state: LoadingStates, action: LoadingAction): LoadingStates {
+    switch (action.type) {
+        case 'SET_LOADING':
+            return { ...state, [action.key]: action.value };
+        case 'SET_MULTIPLE_LOADING':
+            return { ...state, ...action.states };
+        case 'RESET_LOADING':
+            return initialLoadingState;
+        default:
+            return state;
+    }
+}
+
+// Custom hook for loading states
+export function useLoadingStates(initialState: Partial<LoadingStates> = {}) {
+    const [loadingStates, dispatch] = React.useReducer(
+        loadingReducer,
+        { ...initialLoadingState, ...initialState }
+    );
+
+    const setLoading = React.useCallback((key: keyof LoadingStates, value: boolean) => {
+        dispatch({ type: 'SET_LOADING', key, value });
+    }, []);
+
+    const setMultipleLoading = React.useCallback((states: Partial<LoadingStates>) => {
+        dispatch({ type: 'SET_MULTIPLE_LOADING', states });
+    }, []);
+
+    const resetLoading = React.useCallback(() => {
+        dispatch({ type: 'RESET_LOADING' });
+    }, []);
+
+    return {
+        loadingStates,
+        setLoading,
+        setMultipleLoading,
+        resetLoading,
+        isAnyLoading: Object.values(loadingStates).some(Boolean),
+    };
+}
+
+// components/Loading/index.ts (Barrel export)
+export { LoadingSpinner } from './LoadingSpinner';
+export { LoadingButton } from './LoadingButton';
+export { LoadingOverlay } from './LoadingOverlay';
+export { LoadingSkeleton } from './LoadingSkeleton';
+export { TableLoadingSkeleton } from './TableLoadingSkeleton';
+export { CardLoadingSkeleton } from './CardLoadingSkeleton';
+export { PageLoadingSkeleton } from './PageLoadingSkeleton';
+export { 
+    useLoadingStates, 
+    loadingReducer, 
+    initialLoadingState,
+    type LoadingStates,
+    type LoadingAction 
+} from './LoadingStates';
+
+
+implentation
+
+
+// pages/Admin/Enrollments.tsx - Updated with loading components
+import React, { useReducer, useEffect } from 'react';
+import AppLayout from '@/layouts/app-layout';
+import { type BreadcrumbItem, type PageProps } from '@/types';
+import { Head, Link, usePage, router } from '@inertiajs/react';
+import { Search, Filter, Users, CheckCircle, XCircle, Clock, Eye, User, Mail, Phone, MapPin, Calendar, BookOpen, ChevronLeft, ChevronRight, MoreHorizontal } from 'lucide-react';
+
+// Import your loading components
+import { 
+    LoadingButton, 
+    LoadingOverlay, 
+    PageLoadingSkeleton, 
+    TableLoadingSkeleton,
+    useLoadingStates 
+} from '@/components/Loading';
+
+import { StatusBadge } from '@/components/Enrollments/StatusBadge';
+import { LearnerInfo } from '@/components/Enrollments/LearnerInfo';
+import { ActionButtons } from '@/components/Enrollments/ActionButtons';
+import { MyModal } from '@/components/Enrollments/MyModal';
+import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
+
+// --- Interfaces (same as before) ---
+interface ToastNotification {
+    id: string;
+    type: 'success' | 'error';
+    title: string;
+    message: string;
+    duration?: number;
+}
+
+interface LearnerData {
+    learner_id: number;
+    first_name: string;
+    last_name: string;
+    email: string;
+    contact_no: string;
+    program_name: string;
+    created_at: string;
+    enrollment_status: 'pending' | 'accepted' | 'rejected';
+    address?: {
+        city_municipality: string;
+        province: string;
+        email_address?: string;
+    };
+    user?: {
+        email: string;
+    };
+}
+
+interface AdminEnrollmentsProps extends PageProps {
+    recentLearners: {
+        data: LearnerData[];
+        links: Array<{ url: string | null; label: string; active: boolean; }>;
+        current_page: number;
+        last_page: number;
+        from: number | null;
+        to: number | null;
+        total: number;
+        per_page: number;
+    };
+    filters: {
+        search?: string;
+        status?: string;
+    };
+}
+
+// --- Updated State and Reducer ---
+type State = {
+    showConfirmation: boolean;
+    selectedLearner: LearnerData | null;
+    actionType: 'accept' | 'reject' | null;
+    toasts: ToastNotification[];
+};
+
+type Action =
+    | { type: 'SHOW_CONFIRMATION', learner: LearnerData, actionType: 'accept' | 'reject' }
+    | { type: 'HIDE_CONFIRMATION' }
+    | { type: 'ADD_TOAST', toast: Omit<ToastNotification, 'id'> }
+    | { type: 'REMOVE_TOAST', id: string };
+
+const initialState: State = {
+    showConfirmation: false,
+    selectedLearner: null,
+    actionType: null,
+    toasts: [],
+};
+
+function reducer(state: State, action: Action): State {
+    switch (action.type) {
+        case 'SHOW_CONFIRMATION':
+            return { ...state, showConfirmation: true, selectedLearner: action.learner, actionType: action.actionType };
+        case 'HIDE_CONFIRMATION':
+            return { ...state, showConfirmation: false, selectedLearner: null, actionType: null };
+        case 'ADD_TOAST':
+            const id = Date.now().toString();
+            return { ...state, toasts: [...state.toasts, { ...action.toast, id }] };
+        case 'REMOVE_TOAST':
+            return { ...state, toasts: state.toasts.filter(t => t.id !== action.id) };
+        default:
+            return state;
+    }
+}
+
+// --- Breadcrumbs ---
+const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Enrollments',
+        href: '/admin/enrollments',
+    },
+];
+
+// --- Enhanced useEnrollmentActions Hook ---
+function useEnrollmentActions(
+    dispatch: React.Dispatch<Action>, 
+    setLoading: (key: string, value: boolean) => void
+) {
+    const handleAction = (learner: LearnerData, actionType: 'accept' | 'reject') => {
+        dispatch({ type: 'SHOW_CONFIRMATION', learner, actionType });
+    };
+
+    const confirmAction = async (learner: LearnerData | null, actionType: 'accept' | 'reject' | null) => {
+        if (!learner || !actionType) return;
+        
+        setLoading('actionProcess', true);
+        const routeName = actionType === 'accept' ? 'admin.enrollment.accept' : 'admin.enrollment.reject';
+        
+        try {
+            await router.post(route(routeName, learner.learner_id), {}, {
+                onSuccess: () => {
+                    dispatch({
+                        type: 'ADD_TOAST',
+                        toast: {
+                            type: 'success',
+                            title: actionType === 'accept' ? 'Enrollment Accepted!' : 'Enrollment Rejected!',
+                            message: `${learner.first_name} ${learner.last_name}'s enrollment has been ${actionType}ed successfully.`,
+                            duration: 5000
+                        }
+                    });
+                    dispatch({ type: 'HIDE_CONFIRMATION' });
+                },
+                onError: (errors) => {
+                    console.error('Inertia.js POST error:', errors);
+                    dispatch({
+                        type: 'ADD_TOAST',
+                        toast: {
+                            type: 'error',
+                            title: 'Action Failed',
+                            message: `Failed to ${actionType} the enrollment. Please try again.`,
+                            duration: 6000
+                        }
+                    });
+                },
+                onFinish: () => {
+                    setLoading('actionProcess', false);
+                }
+            });
+        } catch (e) {
+            console.error('Network or unexpected error during enrollment action:', e);
+            dispatch({
+                type: 'ADD_TOAST',
+                toast: {
+                    type: 'error',
+                    title: 'Network Error',
+                    message: `Could not ${actionType} enrollment due to a network error.`,
+                    duration: 6000
+                }
+            });
+            setLoading('actionProcess', false);
+        }
+    };
+
+    const cancelAction = () => {
+        dispatch({ type: 'HIDE_CONFIRMATION' });
+    };
+
+    const removeToast = (id: string) => {
+        dispatch({ type: 'REMOVE_TOAST', id });
+    };
+
+    return { handleAction, confirmAction, cancelAction, removeToast };
+}
+
+// --- Main Enrollments Component ---
+export default function Enrollments() {
+    const { recentLearners, filters } = usePage<AdminEnrollmentsProps>().props;
+
+    // Use the custom loading states hook
+    const { loadingStates, setLoading, isAnyLoading } = useLoadingStates({
+        pageLoad: true // Start with page loading
+    });
+
+    // useReducer for UI state
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const { handleAction, confirmAction, cancelAction, removeToast } = useEnrollmentActions(dispatch, setLoading);
+
+    // Filter states
+    const [search, setSearch] = React.useState(filters.search || '');
+    const [statusFilter, setStatusFilter] = React.useState(filters.status || '');
+
+    // Initial page load effect
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading('pageLoad', false);
+        }, 1000); // Simulate loading time
+
+        return () => clearTimeout(timer);
+    }, [setLoading]);
+
+    // Update filter states when props change
+    useEffect(() => {
+        setSearch(filters.search || '');
+        setStatusFilter(filters.status || '');
+    }, [filters.search, filters.status, recentLearners.current_page]);
+
+    // Apply filters with loading state
+    const applyFilters = (page: number = 1) => {
+        setLoading('filterApply', true);
+        
+        router.get(
+            route('admin.enrollments'),
+            { search, status: statusFilter, page },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                onFinish: () => {
+                    setLoading('filterApply', false);
+                }
+            }
+        );
+    };
+
+    // Debounced search effect
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            if (search !== (filters.search || '') || statusFilter !== (filters.status || '')) {
+                applyFilters(1);
+            }
+        }, 300);
+
+        return () => clearTimeout(handler);
+    }, [search, statusFilter]);
+
+    // Handle search input
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(e.target.value);
+    };
+
+    // Clear filters
+    const clearFilters = () => {
+        setSearch('');
+        setStatusFilter('');
+        applyFilters(1);
+    };
+
+    // Get enrollment stats
+    const getEnrollmentStats = () => {
+        const stats = {
+            total: recentLearners.total,
+            pending: 0,
+            accepted: 0,
+            rejected: 0
+        };
+
+        recentLearners.data.forEach(learner => {
+            const status = learner.enrollment_status ?? 'pending';
+            if (status === 'pending') stats.pending++;
+            else if (status === 'accepted') stats.accepted++;
+            else if (status === 'rejected') stats.rejected++;
+        });
+
+        return stats;
+    };
+
+    const stats = getEnrollmentStats();
+
+    // Show page loading skeleton
+    if (loadingStates.pageLoad) {
+        return (
+            <AppLayout breadcrumbs={breadcrumbs}>
+                <Head title="Enrollments" />
+                <div className="min-h-screen bg-gray-50">
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                        <PageLoadingSkeleton 
+                            showHeader={true}
+                            showStats={true}
+                            showFilters={true}
+                            showTable={true}
+                        />
+                    </div>
+                </div>
+            </AppLayout>
+        );
+    }
+
+    return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Enrollments" />
+
+            <div className="min-h-screen bg-gray-50">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                    {/* Header Section */}
+                    <div className="mb-8">
+                        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                            <div>
+                                <h1 className="text-3xl font-bold text-gray-900">Enrollment Management</h1>
+                                <p className="text-gray-600 mt-2">Review and manage student enrollment applications</p>
+                            </div>
+
+                            {/* Stats Cards with Loading Overlay */}
+                            <LoadingOverlay isLoading={loadingStates.filterApply} message="Updating stats...">
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 w-full lg:w-auto">
+                                    <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm flex items-center gap-3">
+                                        <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                            <Users className="w-5 h-5 text-blue-600" />
+                                        </div>
+                                        <div>
+                                            <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
+                                            <p className="text-sm text-gray-500">Total</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm flex items-center gap-3">
+                                        <div className="w-10 h-10 bg-yellow-100 rounded-lg flex items-center justify-center">
+                                            <Clock className="w-5 h-5 text-yellow-600" />
+                                        </div>
+                                        <div>
+                                            <p className="text-2xl font-bold text-gray-900">{stats.pending}</p>
+                                            <p className="text-sm text-gray-500">Pending</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm flex items-center gap-3">
+                                        <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                            <CheckCircle className="w-5 h-5 text-green-600" />
+                                        </div>
+                                        <div>
+                                            <p className="text-2xl font-bold text-gray-900">{stats.accepted}</p>
+                                            <p className="text-sm text-gray-500">Accepted</p>
+                                        </div>
+                                    </div>
+
+                                    <div className="bg-white rounded-lg p-4 border border-gray-200 shadow-sm flex items-center gap-3">

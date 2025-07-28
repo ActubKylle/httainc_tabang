@@ -1,0 +1,318 @@
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    --font-sans:
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+
+    --color-htta-green: var(--htta-green);
+    --color-htta-light-green: var(--htta-light-green);
+    --color-htta-blue: var(--htta-blue);
+    --color-htta-dark-blue: var(--htta-dark-blue);
+    --color-htta-gold: var(--htta-gold);
+    --color-htta-white: var(--htta-white);
+}
+
+:root {
+    --background: #f8fafc;
+    --foreground: #1e293b;
+    --card: #ffffff;
+    --card-foreground: #1e293b;
+    --popover: #ffffff;
+    --popover-foreground: #1e293b;
+    --primary: #006B3E;
+    --primary-foreground: #ffffff;
+    --secondary: #f1f5f9;
+    --secondary-foreground: #475569;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --accent: #28A745;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #006B3E;
+    --chart-1: #006B3E;
+    --chart-2: #28A745;
+    --chart-3: #2D3A84;
+    --chart-4: #FFD700;
+    --chart-5: #1A237E;
+    --radius: 0.625rem;
+    
+    /* Custom HTTA Sidebar Theme */
+    --sidebar: #006B3E;
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: #28A745;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #004d2b;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #004d2b;
+    --sidebar-ring: #28A745;
+    
+    /* HTTA Brand Colors */
+    --htta-green: #006B3E;
+    --htta-light-green: #28A745;
+    --htta-blue: #2D3A84;
+    --htta-dark-blue: #1A237E;
+    --htta-gold: #FFD700;
+    --htta-white: #F8F8F8;
+}
+
+.dark {
+    --background: #0f172a;
+    --foreground: #f8fafc;
+    --card: #1e293b;
+    --card-foreground: #f8fafc;
+    --popover: #1e293b;
+    --popover-foreground: #f8fafc;
+    --primary: #28A745;
+    --primary-foreground: #ffffff;
+    --secondary: #334155;
+    --secondary-foreground: #f8fafc;
+    --muted: #334155;
+    --muted-foreground: #94a3b8;
+    --accent: #006B3E;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    --border: #334155;
+    --input: #334155;
+    --ring: #28A745;
+    --chart-1: #28A745;
+    --chart-2: #006B3E;
+    --chart-3: #2D3A84;
+    --chart-4: #FFD700;
+    --chart-5: #1A237E;
+    
+    /* Dark Mode Sidebar */
+    --sidebar: #001a0f;
+    --sidebar-foreground: #f8fafc;
+    --sidebar-primary: #006B3E;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #002d1a;
+    --sidebar-accent-foreground: #f8fafc;
+    --sidebar-border: #002d1a;
+    --sidebar-ring: #28A745;
+    
+    /* HTTA Brand Colors - Dark Mode Adjustments */
+    --htta-green: #28A745;
+    --htta-light-green: #34d058;
+    --htta-blue: #3b4ba8;
+    --htta-dark-blue: #2d3a84;
+    --htta-gold: #ffd700;
+    --htta-white: #1e293b;
+}
+
+@layer base {
+    * {
+        /* Correctly uses the theme's border variable to prevent errors */
+        border-color: var(--border);
+    }
+
+    html {
+        /* This increases the base font size for the whole app. 112.5% makes 16px -> ~18px */
+        font-size: 112.5%;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    
+    .animate-fade-in { 
+        animation: fadeIn 0.8s ease-out forwards; 
+    }
+    
+    .animate-pulse { 
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; 
+    }
+    
+    .animate-shimmer {
+        animation: shimmer 2s ease-in-out infinite;
+    }
+}
+
+/* Custom HTTA Component Styles */
+@layer components {
+    .htta-sidebar {
+        background: linear-gradient(135deg, var(--htta-green) 0%, #004d2b 100%);
+        border-right: 1px solid var(--htta-light-green);
+    }
+    
+    .htta-sidebar-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.1);
+    }
+    
+    .htta-nav-item {
+        @apply transition-all duration-200 ease-in-out;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .htta-nav-item:hover {
+        background: rgba(40, 167, 69, 0.2);
+        transform: translateX(4px);
+    }
+    
+    .htta-nav-item.active {
+        background: var(--htta-light-green);
+        color: white;
+        border-left: 4px solid var(--htta-gold);
+    }
+    
+    /* Loading skeleton styles */
+    .htta-skeleton {
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        background-size: 200% 100%;
+        animation: shimmer 2s ease-in-out infinite;
+    }
+    
+    .htta-skeleton-item {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .htta-skeleton-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shimmer 2s ease-in-out infinite;
+    }
+    
+    /* Staggered animation for nav items */
+    .htta-nav-item:nth-child(1) { animation-delay: 0ms; }
+    .htta-nav-item:nth-child(2) { animation-delay: 100ms; }
+    .htta-nav-item:nth-child(3) { animation-delay: 200ms; }
+    .htta-nav-item:nth-child(4) { animation-delay: 300ms; }
+    .htta-nav-item:nth-child(5) { animation-delay: 400ms; }
+    
+    .htta-logo-bg {
+        background: linear-gradient(135deg, var(--htta-light-green) 0%, var(--htta-green) 100%);
+        box-shadow: 0 2px 8px rgba(0, 107, 62, 0.3);
+    }
+    
+    .htta-card {
+        background: var(--card);
+        border: 1px solid var(--htta-light-green);
+        box-shadow: 0 4px 12px rgba(0, 107, 62, 0.1);
+    }
+    
+    .htta-button-primary {
+        background: linear-gradient(135deg, var(--htta-green) 0%, var(--htta-light-green) 100%);
+        border: none;
+        color: white;
+        transition: all 0.3s ease;
+    }
+    
+    .htta-button-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 107, 62, 0.3);
+    }
+    
+    .htta-accent-border {
+        border-color: var(--htta-gold);
+    }
+    
+    .htta-text-gradient {
+        background: linear-gradient(135deg, var(--htta-green) 0%, var(--htta-light-green) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+/* Dark mode specific adjustments */
+.dark .htta-sidebar {
+    background: linear-gradient(135deg, #001a0f 0%, #000d07 100%);
+    border-right: 1px solid #002d1a;
+}
+
+.dark .htta-sidebar-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.dark .htta-nav-item:hover {
+    background: rgba(40, 167, 69, 0.1);
+}
+
+.dark .htta-card {
+    background: var(--card);
+    border: 1px solid #002d1a;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}

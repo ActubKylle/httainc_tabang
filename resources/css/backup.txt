@@ -1,0 +1,336 @@
+@import 'tailwindcss';
+
+@plugin 'tailwindcss-animate';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    --font-sans:
+        'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+
+    --color-htta-green: var(--htta-green);
+    --color-htta-light-green: var(--htta-light-green);
+    --color-htta-blue: var(--htta-blue);
+    --color-htta-dark-blue: var(--htta-dark-blue);
+    --color-htta-gold: var(--htta-gold);
+    --color-htta-white: var(--htta-white);
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentColor);
+    }
+}
+
+:root {
+    --background: #f8fafc;
+    --foreground: #1e293b;
+    --card: #ffffff;
+    --card-foreground: #1e293b;
+    --popover: #ffffff;
+    --popover-foreground: #1e293b;
+    --primary: #2E7D32;
+    --primary-foreground: #ffffff;
+    --secondary: #f1f5f9;
+    --secondary-foreground: #475569;
+    --muted: #f1f5f9;
+    --muted-foreground: #64748b;
+    --accent: #43A047;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    --border: #e2e8f0;
+    --input: #e2e8f0;
+    --ring: #2E7D32;
+    --chart-1: #2E7D32;
+    --chart-2: #43A047;
+    --chart-3: #2D3A84;
+    --chart-4: #FFD700;
+    --chart-5: #1B5E20;
+    --radius: 0.625rem;
+    
+    /* Custom HTTA Sidebar Theme - Enhanced with richer green */
+    --sidebar: #1B5E20;
+    --sidebar-foreground: #ffffff;
+    --sidebar-primary: #2E7D32;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #0D4E14;
+    --sidebar-accent-foreground: #ffffff;
+    --sidebar-border: #0D4E14;
+    --sidebar-ring: #43A047;
+    
+    /* HTTA Brand Colors - Enhanced with richer green palette */
+    --htta-green: #2E7D32;
+    --htta-light-green: #43A047;
+    --htta-blue: #2D3A84;
+    --htta-dark-blue: #1A237E;
+    --htta-gold: #FFD700;
+    --htta-white: #F8F8F8;
+}
+
+.dark {
+    --background: #0f172a;
+    --foreground: #f8fafc;
+    --card: #1e293b;
+    --card-foreground: #f8fafc;
+    --popover: #1e293b;
+    --popover-foreground: #f8fafc;
+    --primary: #43A047;
+    --primary-foreground: #ffffff;
+    --secondary: #334155;
+    --secondary-foreground: #f8fafc;
+    --muted: #334155;
+    --muted-foreground: #94a3b8;
+    --accent: #2E7D32;
+    --accent-foreground: #ffffff;
+    --destructive: #dc2626;
+    --destructive-foreground: #ffffff;
+    --border: #334155;
+    --input: #334155;
+    --ring: #43A047;
+    --chart-1: #43A047;
+    --chart-2: #2E7D32;
+    --chart-3: #2D3A84;
+    --chart-4: #FFD700;
+    --chart-5: #1B5E20;
+    
+    /* Dark Mode Sidebar - Enhanced with richer green */
+    --sidebar: #0A2F0E;
+    --sidebar-foreground: #f8fafc;
+    --sidebar-primary: #2E7D32;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #051A08;
+    --sidebar-accent-foreground: #f8fafc;
+    --sidebar-border: #051A08;
+    --sidebar-ring: #43A047;
+    
+    /* HTTA Brand Colors - Dark Mode Adjustments with enhanced green */
+    --htta-green: #43A047;
+    --htta-light-green: #66BB6A;
+    --htta-blue: #3b4ba8;
+    --htta-dark-blue: #2d3a84;
+    --htta-gold: #ffd700;
+    --htta-white: #1e293b;
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+    }
+    
+    @keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+    
+    .animate-fade-in { 
+        animation: fadeIn 0.8s ease-out forwards; 
+    }
+    
+    .animate-pulse { 
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; 
+    }
+    
+    .animate-shimmer {
+        animation: shimmer 2s ease-in-out infinite;
+    }
+}
+
+/* Custom HTTA Component Styles - Enhanced with richer green */
+@layer components {
+    .htta-sidebar {
+        background: linear-gradient(135deg, #1B5E20 0%, #0D4E14 50%, #0A2F0E 100%);
+        border-right: 1px solid #2E7D32;
+        box-shadow: 2px 0 8px rgba(27, 94, 32, 0.3);
+    }
+    
+    .htta-sidebar-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        background: rgba(0, 0, 0, 0.2);
+    }
+    
+    .htta-nav-item {
+        @apply transition-all duration-200 ease-in-out;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .htta-nav-item:hover {
+        background: rgba(46, 125, 50, 0.3);
+        transform: translateX(4px);
+    }
+    
+    .htta-nav-item.active {
+        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%);
+        color: white;
+        border-left: 4px solid var(--htta-gold);
+        box-shadow: 0 2px 8px rgba(46, 125, 50, 0.4);
+    }
+    
+    /* Loading skeleton styles */
+    .htta-skeleton {
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        background-size: 200% 100%;
+        animation: shimmer 2s ease-in-out infinite;
+    }
+    
+    .htta-skeleton-item {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .htta-skeleton-item::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        animation: shimmer 2s ease-in-out infinite;
+    }
+    
+    /* Staggered animation for nav items */
+    .htta-nav-item:nth-child(1) { animation-delay: 0ms; }
+    .htta-nav-item:nth-child(2) { animation-delay: 100ms; }
+    .htta-nav-item:nth-child(3) { animation-delay: 200ms; }
+    .htta-nav-item:nth-child(4) { animation-delay: 300ms; }
+    .htta-nav-item:nth-child(5) { animation-delay: 400ms; }
+    
+    .htta-logo-bg {
+        background: linear-gradient(135deg, #43A047 0%, #2E7D32 50%, #1B5E20 100%);
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.4);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .htta-card {
+        background: var(--card);
+        border: 1px solid #2E7D32;
+        box-shadow: 0 4px 12px rgba(46, 125, 50, 0.15);
+    }
+    
+    .htta-button-primary {
+        background: linear-gradient(135deg, #2E7D32 0%, #43A047 50%, #2E7D32 100%);
+        border: none;
+        color: white;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(46, 125, 50, 0.3);
+    }
+    
+    .htta-button-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(46, 125, 50, 0.4);
+        background: linear-gradient(135deg, #43A047 0%, #2E7D32 50%, #43A047 100%);
+    }
+    
+    .htta-accent-border {
+        border-color: var(--htta-gold);
+    }
+    
+    .htta-text-gradient {
+        background: linear-gradient(135deg, #2E7D32 0%, #43A047 50%, #2E7D32 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+}
+
+/* Dark mode specific adjustments - Enhanced with richer green */
+.dark .htta-sidebar {
+    background: linear-gradient(135deg, #0A2F0E 0%, #051A08 50%, #000F04 100%);
+    border-right: 1px solid #1B5E20;
+    box-shadow: 2px 0 12px rgba(10, 47, 14, 0.5);
+}
+
+.dark .htta-sidebar-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.dark .htta-nav-item:hover {
+    background: rgba(46, 125, 50, 0.2);
+}
+
+.dark .htta-card {
+    background: var(--card);
+    border: 1px solid #1B5E20;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
