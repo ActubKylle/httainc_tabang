@@ -57,9 +57,7 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
                         <Link href="/" className="flex items-center space-x-4 group">
                             <div className="relative">
                                 <div className="w-16 h-16 bg-gradient-to-br from-white via-gray-50 to-white rounded-full flex items-center justify-center shadow-xl shadow-black/20 group-hover:shadow-2xl group-hover:shadow-yellow-400/30 transition-all duration-500 group-hover:scale-110">
-                                    {/* FIXED: Corrected image source */}
-                                   <img src="/logo.jpg" alt="HTTA Logo" />
-
+                                    <img src="/logo.jpg" alt="HTTA Logo" />
                                 </div>
                                 <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-500 rounded-full opacity-0 group-hover:opacity-30 transition-opacity duration-500 blur-lg"></div>
                                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 animate-pulse"></div>
@@ -75,36 +73,39 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
                         </Link>
 
                         {/* Desktop Navigation */}
-                        <nav className="hidden lg:flex space-x-2">
+                        <nav className="hidden lg:flex space-x-1">
                             {navItems.map((item) => (
                                 <Link
                                     key={item.href}
                                     href={item.href}
-                                    className={`relative group px-5 py-3 rounded-xl font-semibold transition-all duration-500 transform hover:scale-105 hover:-translate-y-1 ${
+                                    className={`relative group px-4 py-2.5 rounded-lg font-semibold transition-all duration-300 ${
                                         isActive(item.href)
-                                            ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-green-800 shadow-2xl shadow-yellow-400/30'
-                                            : 'text-white hover:bg-gradient-to-r hover:from-white hover:to-white hover:bg-opacity-20 hover:text-yellow-200 hover:shadow-lg'
+                                            ? 'bg-gradient-to-r from-yellow-400 to-yellow-500 text-green-800 shadow-lg'
+                                            : 'text-white hover:bg-white hover:bg-opacity-10 hover:text-yellow-200'
                                     }`}
                                 >
                                     <div className="flex items-center space-x-2">
-                                        <span className={`transition-all duration-300 ${isActive(item.href) ? 'text-green-800' : 'text-current group-hover:scale-110'}`}>
+                                        <span className={`w-4 h-4 ${isActive(item.href) ? 'text-green-800' : 'text-current'}`}>
                                             {item.icon}
                                         </span>
-                                        <span className="relative">
-                                            {item.label}
-                                            {!isActive(item.href) && (
-                                                <div className="absolute -bottom-1 left-0 w-0 h-0.5 bg-yellow-400 transition-all duration-300 group-hover:w-full"></div>
-                                            )}
-                                        </span>
+                                        <span className="text-sm">{item.label}</span>
                                     </div>
-                                    {isActive(item.href) && (
-                                        <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-3 h-3 bg-yellow-500 rounded-full shadow-lg"></div>
-                                    )}
-                                    {/* Glow effect on hover */}
-                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-yellow-400 to-yellow-500 opacity-0 group-hover:opacity-10 transition-opacity duration-300 blur-sm"></div>
                                 </Link>
                             ))}
                         </nav>
+
+                        {/* Login Button - Separate and Prominent */}
+                        <div className="hidden lg:block">
+                            <Link
+                                href="/login"
+                                className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-green-800 px-5 py-2.5 rounded-lg font-bold shadow-lg hover:shadow-xl transition-all duration-300 flex items-center space-x-2 text-sm"
+                            >
+                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                                </svg>
+                                <span>Login</span>
+                            </Link>
+                        </div>
 
                         {/* Mobile Menu Button */}
                         <button
@@ -117,7 +118,7 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
                         </button>
                     </div>
 
-                    {/* Enhanced Mobile Menu */}
+                    {/* Enhanced Mobile Menu with Login */}
                     {isMobileMenuOpen && (
                         <div className="lg:hidden absolute top-full left-0 right-0 bg-gradient-to-b from-green-600 to-green-700 shadow-2xl border-t border-green-400 z-50 backdrop-blur-sm">
                             <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-yellow-500 opacity-5"></div>
@@ -139,6 +140,20 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
                                         <span>{item.label}</span>
                                     </Link>
                                 ))}
+                                
+                                {/* Mobile Login Button */}
+                                <div className="pt-4 border-t border-green-500">
+                                    <Link
+                                        href="/login"
+                                        className="flex items-center space-x-3 px-4 py-3 rounded-xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 text-green-800 shadow-lg transition-all duration-300 transform hover:scale-105"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                                        </svg>
+                                        <span>Login</span>
+                                    </Link>
+                                </div>
                             </nav>
                         </div>
                     )}
@@ -158,18 +173,15 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
 
             {/* Enhanced Footer */}
             <footer className="bg-gradient-to-r from-green-600 via-green-500 to-green-600 text-white mt-12 relative overflow-hidden">
-                {/* Modern HD Footer Background */}
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black to-transparent opacity-10"></div>
                 <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-yellow-400 to-yellow-500 rounded-full opacity-5 blur-3xl"></div>
                 <div className="absolute bottom-0 right-0 w-48 h-48 bg-gradient-to-tl from-emerald-400 to-green-400 rounded-full opacity-10 blur-2xl"></div>
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                        {/* Enhanced Logo and Description */}
                         <div className="text-center md:text-left">
                             <div className="flex items-center justify-center md:justify-start space-x-3 mb-6">
                                 <div className="w-12 h-12 bg-gradient-to-br from-white via-gray-50 to-white rounded-full flex items-center justify-center shadow-xl">
-                                    {/* FIXED: Corrected image source */}
-<img src="/logo.jpg" alt="HTTA Logo" />
+                                    <img src="/logo.jpg" alt="HTTA Logo" />
                                 </div>
                                 <div>
                                     <span className="text-xl font-black">HTTA, Inc.</span>
@@ -181,7 +193,6 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
                             </p>
                         </div>
 
-                        {/* Quick Links */}
                         <div className="text-center">
                             <h3 className="text-lg font-semibold mb-4 text-yellow-200">Quick Links</h3>
                             <div className="space-y-2">
@@ -197,10 +208,19 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
                                         <span>{item.label}</span>
                                     </Link>
                                 ))}
+                                {/* Login link in footer */}
+                                <Link
+                                    href="/login"
+                                    className="flex items-center space-x-2 text-yellow-200 hover:text-yellow-100 transition-all duration-300 hover:translate-x-1 group font-semibold"
+                                >
+                                    <svg className="w-5 h-5 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                                    </svg>
+                                    <span>Login</span>
+                                </Link>
                             </div>
                         </div>
 
-                        {/* Contact Info */}
                         <div className="text-center md:text-right">
                             <h3 className="text-lg font-semibold mb-4 text-yellow-200">Contact Info</h3>
                             <div className="space-y-2 text-green-200 text-sm">
@@ -211,7 +231,6 @@ const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => 
                         </div>
                     </div>
 
-                    {/* Bottom Bar */}
                     <div className="border-t border-green-600 mt-8 pt-6 text-center">
                         <p className="text-green-200 text-sm">
                             &copy; {new Date().getFullYear()} Highlands Technical Training Academy, Inc. All rights reserved.

@@ -17,7 +17,7 @@ return new class extends Migration
 
             // IMPORTANT: REMOVE THIS LINE if it's present in your existing migration:
             // $table->string('course_qualification', 255); // <-- This column should NOT exist
-
+   
             $table->string('scholarship_package', 255)->nullable();
             $table->timestamps();
         });

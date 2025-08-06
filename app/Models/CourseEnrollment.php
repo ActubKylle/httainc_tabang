@@ -14,6 +14,7 @@ class CourseEnrollment extends Model
         'learner_id',
         // 'course_qualification',
         'program_id',
+        'batch_id',
         'scholarship_package',
     ];
 
@@ -25,4 +26,8 @@ class CourseEnrollment extends Model
     {
         return $this->belongsTo(Program::class, 'program_id', 'id');
     }
+    public function batch(): BelongsTo
+{
+    return $this->belongsTo(Batch::class);
+}
 }

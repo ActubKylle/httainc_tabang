@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem, type PageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid, UserCheck, Users } from 'lucide-react';
+import { BookOpen, Folder, LayoutGrid, UserCheck, Users,Award,CalendarCheck } from 'lucide-react';
 
 import AppLogo from './app-logo';
 
@@ -17,42 +17,78 @@ interface AuthUser {
 }
 
 // Extend PageProps to get the authenticated user
-interface CustomPageProps extends PageProps {
-    auth: {
-        user: AuthUser;
-    };
-}
+// interface CustomPageProps extends PageProps {
+//     auth: {
+//         user: AuthUser;
+//     };
+// }
 
 export function AppSidebar() {
     const { auth } = usePage<CustomPageProps>().props;
     const userRole = auth.user?.role;
 
     // Main navigation items
-    const mainNavItems: NavItem[] = [
-        {
-            title: 'Dashboard',
-            href: '/dashboard',
-            icon: LayoutGrid,
-        },
-    ];
+    // const mainNavItems: NavItem[] = [
+    //     {
+    //         title: 'Dashboard',
+    //         href: '/dashboard',
+    //         icon: LayoutGrid,
+    //     },
+        
+        
+    // ];
+
+        const mainNavItems: NavItem[] = [];
+
+
+
+     if (userRole === 'learner') { 
+        mainNavItems.push({
+            title: 'Scholarships',
+            href: '/scholarships',
+            icon: Award,
+        });
+        
+        mainNavItems.push({
+        title: 'My Applications',
+        href: '/my-applications', // This matches the route you created
+        icon: Folder,             // A fitting icon for tracking applications
+    });
+     }
 
     // Add Enrollment link if user is an admin
-    if (userRole === 'admin') {
+    if (userRole === 'staff') {
+         mainNavItems.push({
+             title: 'Dashboard',
+           href: '/staff/dashboard',
+           icon: LayoutGrid,
+        });
+        
         mainNavItems.push({
             title: 'Enrollments',
-            href: '/admin/enrollments',
+            href: '/staff/enrollments',
             icon: UserCheck,
         });
         mainNavItems.push({
         title: 'Student List',
-        href: '/admin/students', // The route you just created
+        href: '/staff/students', // The route you just created
         icon: Users, // A fitting icon for a list of users
     });
-        mainNavItems.push({
-            title: 'Manage Programs', // Title for the sidebar link
-            href: '/admin/programs', // The route for managing programs
-            icon: BookOpen, // Using BookOpen as an appropriate icon for programs/courses
+     mainNavItems.push({
+            title: 'Attendance',
+            href: route('staff.attendance.index'), // Using the named route
+            icon: CalendarCheck, // A fitting icon for attendance
         });
+    mainNavItems.push({
+        title: 'Manage Programs', // Title for the sidebar link
+        href: '/staff/programs', // The route for managing programs
+        icon: BookOpen, // Using BookOpen as an appropriate icon for programs/courses
+    });
+        mainNavItems.push({
+        title: 'Scholarships',
+        href: '/staff/scholarships', // Matches the resource route
+        icon: Award, // A fitting icon for scholarships
+    });
         
     }
 

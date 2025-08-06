@@ -7,6 +7,7 @@ use App\Models\Learner;
 use App\Models\User; // Still needed for type hinting, but not for creation here
 use App\Models\Classification;
 use App\Models\Program;
+use App\Models\EducationalAttainment;
 use App\Models\DisabilityType;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash; // Still needed for hashing if used elsewhere, but not for new user here
@@ -14,6 +15,8 @@ use Illuminate\Support\Str; // Still needed for string functions if used elsewhe
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use App\Events\NewLearnerRegistration;
+
 
 class LearnerRegistrationController extends Controller
 {
@@ -46,8 +49,9 @@ class LearnerRegistrationController extends Controller
                 'district' => 'nullable|string|max:100',
                 'province' => 'required|string|max:100',
                 'region' => 'required|string|max:100',
-                'facebook_account' => 'nullable|string|max:255|url',
-                'contact_no' => 'required|string|max:20',
+                'facebook_account' => 'nullable|string|max:255',
+                'contact_no' => ['required', 'string', 'max:20','regex:/^\+?639\d{2}-?\d{3}-?\d{4}$/'
+],
 
                 // Educational Attainments (BOOLEAN FLAGS)
                 'no_grade_completed' => 'nullable|boolean',
@@ -75,8 +79,36 @@ class LearnerRegistrationController extends Controller
                 'cause_of_disability' => 'nullable|string|max:50|required_if:disability_types,true',
 
                  // Program Enrollment: Changed from course_qualification to program_id
-                'program_id' => 'required|integer|exists:programs,id', // Validate against 'programs' table and its 'id'
-                'scholarship_package' => 'nullable|string|max:255',
+'program_id' => [
+                'required',
+                'integer',
+                // Use a closure for complex validation
+                function ($attribute, $value, $fail) {
+                    $program = \App\Models\Program::find($value);
+                    $today = now()->startOfDay(); // Use start of day for consistent comparison
+
+                    if (!$program) {
+                        $fail('The selected program is invalid.');
+                        return;
+                    }
+
+                    if ($program->status !== 'active') {
+                        $fail('The selected program is not currently active.');
+                        return;
+                    }
+
+                    // Check if enrollment dates are set and if today is outside the range
+                    if ($program->enrollment_start_date && $program->enrollment_end_date) {
+                        $startDate = \Illuminate\Support\Carbon::parse($program->enrollment_start_date)->startOfDay();
+                        $endDate = \Illuminate\Support\Carbon::parse($program->enrollment_end_date)->endOfDay(); // Use end of day for the deadline
+
+                        if (!$today->between($startDate, $endDate)) {
+                            $fail('Enrollment for the selected program is not currently open.');
+                        }
+                    }
+                    // If dates are null, enrollment is considered always open, so no failure.
+                },
+            ],                'scholarship_package' => 'nullable|string|max:255',
 
                 'consent_given' => 'required|boolean|accepted', // Must be true
 
@@ -173,6 +205,8 @@ class LearnerRegistrationController extends Controller
                 'doctorate' => $validatedData['doctorate'] ?? false,
             ]);
 
+            
+
             // Attach Learner Classifications (Many-to-Many)
             if (!empty($validatedData['classifications'])) {
                 $pivotData = [];
@@ -228,6 +262,8 @@ class LearnerRegistrationController extends Controller
             ]);
 
             DB::commit();
+
+             broadcast(new NewLearnerRegistration($learner))->toOthers();
 
             // Redirect back to the same page with a success flash message
             return redirect()->back()->with('success_message', 'Registration Submitted! Thank you for registering. Your application has been received and is now waiting for approval by the administrator.');

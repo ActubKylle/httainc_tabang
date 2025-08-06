@@ -5,6 +5,8 @@ import { MyImagePreviewModal } from './MyImagePreviewModal';
 
 export function LearnerInfo({ learner }: { learner: LearnerData }) { 
     const [isImageModalOpen, setImageModalOpen] = useState(false);
+        // console.log('Learner Info:', learner);
+        // learner.picture_image_url.replace("/storage/storage/", "/storage/");
 
     return (
         <>

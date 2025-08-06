@@ -15,6 +15,8 @@ return new class extends Migration
             $table->integer('duration_hours');
             $table->integer('duration_days');
             $table->text('description')->nullable();
+            $table->date('enrollment_start_date')->nullable(); // Optional field for enrollment start date
+            $table->date('enrollment_end_date')->nullable(); // Optional field for enrollment end
             $table->string('status')->default('active'); // 'active' or 'inactive'
             $table->timestamps();
         });

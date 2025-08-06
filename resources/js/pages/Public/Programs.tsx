@@ -67,7 +67,7 @@ const Programs: React.FC = () => {
                     <div className="relative z-10">
                         <div className="text-7xl mb-6 text-orange-500">🍳</div>
                         <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-800 mb-6">
-                            Commercial Cooking NC II
+                            Commercial Cooking NC III
                         </h2>
                         
                         <p className="text-lg text-gray-700 mb-8 leading-relaxed">
@@ -144,7 +144,7 @@ const Programs: React.FC = () => {
                                 </div>
                                 <div>
                                     <strong className="text-gray-800">Certification:</strong>
-                                    <span className="text-gray-600 ml-2">TESDA NC II</span>
+                                    <span className="text-gray-600 ml-2">TESDA NC III</span>
                                 </div>
                                 <div>
                                     <strong className="text-gray-800">Cost:</strong>
@@ -158,6 +158,109 @@ const Programs: React.FC = () => {
                         </button>
                     </div>
                 </div>
+
+                <div className="group relative bg-gradient-to-br from-orange-50 to-red-50 p-10 rounded-2xl shadow-2xl border-2 border-orange-200 transition-all duration-300 hover:shadow-3xl hover:-translate-y-3 overflow-hidden">
+    <div className="absolute top-6 right-6 bg-emerald-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+        100% FREE
+    </div>
+
+    <div className="absolute -top-10 -right-10 w-32 h-32 bg-orange-200 rounded-full opacity-20"></div>
+
+    <div className="relative z-10">
+        <div className="text-7xl mb-6 text-orange-500">👩‍🍳</div>
+        <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-800 mb-6">
+            Cookery NC II
+        </h2>
+
+        <p className="text-lg text-gray-700 mb-8 leading-relaxed">
+            Gain essential knowledge in food preparation, cooking, and kitchen operations. 
+            This course covers everything from sanitation to plating, giving you real-world culinary skills.
+        </p>
+
+        {/* Course Highlights */}
+        <div className="mb-8">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">What You'll Learn:</h3>
+            <ul className="space-y-3">
+                <li className="flex items-start">
+                    <svg className="w-5 h-5 text-emerald-500 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-gray-700">Basic cooking methods and techniques</span>
+                </li>
+                <li className="flex items-start">
+                    <svg className="w-5 h-5 text-emerald-500 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-gray-700">Kitchen safety and sanitation</span>
+                </li>
+                <li className="flex items-start">
+                    <svg className="w-5 h-5 text-emerald-500 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-gray-700">Proper food handling and storage</span>
+                </li>
+                <li className="flex items-start">
+                    <svg className="w-5 h-5 text-emerald-500 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-gray-700">Presentation and portioning techniques</span>
+                </li>
+                <li className="flex items-start">
+                    <svg className="w-5 h-5 text-emerald-500 mr-3 mt-1 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-gray-700">Basic menu planning</span>
+                </li>
+            </ul>
+        </div>
+
+        {/* Career Opportunities */}
+        <div className="mb-8">
+            <h3 className="text-xl font-bold text-gray-800 mb-4">Career Opportunities:</h3>
+            <div className="grid grid-cols-2 gap-3">
+                <div className="bg-white bg-opacity-50 px-3 py-2 rounded-lg text-center text-sm font-medium text-gray-700">
+                    Assistant Cook
+                </div>
+                <div className="bg-white bg-opacity-50 px-3 py-2 rounded-lg text-center text-sm font-medium text-gray-700">
+                    Kitchen Helper
+                </div>
+                <div className="bg-white bg-opacity-50 px-3 py-2 rounded-lg text-center text-sm font-medium text-gray-700">
+                    Commis Chef
+                </div>
+                <div className="bg-white bg-opacity-50 px-3 py-2 rounded-lg text-center text-sm font-medium text-gray-700">
+                    Food Handler
+                </div>
+            </div>
+        </div>
+
+        {/* Program Details */}
+        <div className="bg-white bg-opacity-60 p-6 rounded-xl mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                <div>
+                    <strong className="text-gray-800">Duration:</strong>
+                    <span className="text-gray-600 ml-2">316 hours</span>
+                </div>
+                <div>
+                    <strong className="text-gray-800">Schedule:</strong>
+                    <span className="text-gray-600 ml-2">Flexible</span>
+                </div>
+                <div>
+                    <strong className="text-gray-800">Certification:</strong>
+                    <span className="text-gray-600 ml-2">TESDA NC II</span>
+                </div>
+                <div>
+                    <strong className="text-gray-800">Cost:</strong>
+                    <span className="text-emerald-600 ml-2 font-bold">FREE</span>
+                </div>
+            </div>
+        </div>
+
+        <button className="w-full bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold py-4 px-6 rounded-full text-lg hover:from-orange-600 hover:to-red-600 transform hover:scale-105 transition duration-300 shadow-lg">
+            Apply for Cookery NC II
+        </button>
+    </div>
+</div>
+
 
                 {/* Bread & Pastry Production NC II */}
                 <div className="group relative bg-gradient-to-br from-yellow-50 to-orange-50 p-10 rounded-2xl shadow-2xl border-2 border-yellow-200 transition-all duration-300 hover:shadow-3xl hover:-translate-y-3 overflow-hidden">
@@ -261,7 +364,41 @@ const Programs: React.FC = () => {
                         </button>
                     </div>
                 </div>
+<div className="relative bg-gradient-to-br from-gray-100 to-gray-200 p-10 rounded-2xl shadow-xl border-2 border-gray-300 opacity-70 cursor-not-allowed">
+  <div className="absolute top-6 right-6 bg-yellow-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md">
+    Coming Soon
+  </div>
+  <div className="relative z-10">
+    <div className="text-7xl mb-6 text-yellow-600">🚜</div>
+    <h2 className="text-3xl font-extrabold text-gray-700 mb-6">
+      Heavy Equipment Operation (Backhoe Loader) NC II
+    </h2>
+    <p className="text-gray-600 text-base leading-relaxed">
+      Learn to safely operate backhoe loaders with training in safety procedures, equipment maintenance, and excavation skills.
+    </p>
+  </div>
+</div>
+
+{/* Soon to Open - Heavy Equipment (Forklift) */}
+<div className="relative bg-gradient-to-br from-gray-100 to-gray-200 p-10 rounded-2xl shadow-xl border-2 border-gray-300 opacity-70 cursor-not-allowed">
+  <div className="absolute top-6 right-6 bg-yellow-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-md">
+    Coming Soon
+  </div>
+  <div className="relative z-10">
+    <div className="text-7xl mb-6 text-yellow-600">🛠️</div>
+    <h2 className="text-3xl font-extrabold text-gray-700 mb-6">
+      Heavy Equipment Operation (Forklift) NC II
+    </h2>
+    <p className="text-gray-600 text-base leading-relaxed">
+      Master the fundamentals of forklift operation, warehouse logistics, and safety practices in this TESDA-accredited program.
+    </p>
+  </div>
+</div>
+                
             </section>
+
+
+            
 
             {/* Why Choose Our Programs */}
             <section className="bg-gradient-to-r from-emerald-500 to-blue-600 p-10 md:p-16 rounded-2xl shadow-2xl text-white mb-16">
@@ -390,6 +527,9 @@ const Programs: React.FC = () => {
                     </button>
                 </div>
             </section>
+
+
+            
         </PublicLayout>
     );
 };

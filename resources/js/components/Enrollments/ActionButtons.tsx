@@ -14,7 +14,7 @@ export function ActionButtons({ learner, onAction }: { learner: any, onAction: (
             <DropdownMenu.Portal>
                 <DropdownMenu.Content className="bg-white rounded-lg shadow-lg border border-gray-200 p-1.5 z-50 min-w-[150px]" sideOffset={5}>
                     <DropdownMenu.Item asChild>
-                        <Link href={route('admin.enrollment.show', learner.learner_id)} className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors cursor-pointer">
+                        <Link href={route('staff.enrollment.show', learner.learner_id)} className="flex items-center gap-2 px-3 py-2 rounded-md text-sm text-gray-700 hover:bg-blue-50 hover:text-blue-700 transition-colors cursor-pointer">
                             <Eye className="w-4 h-4" /> View Details
                         </Link>
                     </DropdownMenu.Item>

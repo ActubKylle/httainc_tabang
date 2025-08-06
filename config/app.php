@@ -1,4 +1,5 @@
 <?php
+use Illuminate\Support\ServiceProvider; // ✅ Add this line back
 
 return [
 
@@ -25,6 +26,24 @@ return [
     | services the application utilizes. Set this in your ".env" file.
     |
     */
+
+    'providers' => ServiceProvider::defaultProviders()->merge([
+    /*
+     * Package Service Providers...
+     */
+
+    /*
+     * Application Service Providers...
+     */
+    App\Providers\AppServiceProvider::class,
+    App\Providers\AuthServiceProvider::class,
+    App\Providers\BroadcastServiceProvider::class, 
+    App\Providers\EventServiceProvider::class,
+    App\Providers\RouteServiceProvider::class,
+
+])->toArray(),
+
+
 
     'env' => env('APP_ENV', 'production'),
 
